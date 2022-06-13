@@ -43,7 +43,7 @@ class RolesController extends Controller
     public function edit($id){
         $role=Role::find($id);
         if (!$role)
-            return redirect()->route('admin.tags')->with(['error' => __('admin/dashboard.edit_category_edit_err_msg')]);
+            return redirect()->route('admin.roles')->with(['error' => __('admin/dashboard.edit_category_edit_err_msg')]);
         return view('dashboard.roles.edit', compact('role'));
     }
 
@@ -51,9 +51,9 @@ class RolesController extends Controller
         try {
             $role = Role::find($id);
             if (!$role)
-                return redirect()->route('admin.tags')->with(['error' => __('admin/dashboard.edit_category_edit_err_msg')]);
+                return redirect()->route('admin.roles')->with(['error' => __('admin/dashboard.edit_category_edit_err_msg')]);
             $role = $this->process($role, $request);
-                return redirect()->route('admin.roles')->with(['error' => __('admin/dashboard.role_updated_success_msg')]);
+                return redirect()->route('admin.roles')->with(['success' => __('admin/dashboard.role_updated_success_msg')]);
         }catch (\Exception $ex) {
 //         return $ex;
             DB::rollBack();

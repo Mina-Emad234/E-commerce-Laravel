@@ -117,7 +117,8 @@ class MyFatoorahServices
             'customer_name' => auth()->user()->name,
             'total' => $amount,
             'locale' => 'en',
-            'payment_method' => $PaymentMethodId,  // you can use enumeration here as we use before for best practices for constants.
+            'payment_method' => $PaymentMethodId,
+            // you can use enumeration here as we use before for best practices for constants.
             'status' => Order::PAID,
         ]);
 

@@ -60,6 +60,7 @@
                                                 <button type="submit" class="btn btn-primary">
                                                     <i class="la la-check-square-o"></i> {{__('admin/dashboard.pro_save')}}
                                                 </button>
+                                            </div>
                                         </form>
 
 
@@ -94,8 +95,21 @@
                 uploadedDocumentMap[file.name] = response.name
             },
             removedfile: function (file) {
-                file.previewElement.remove()
-                var name = ''
+                var name = file.upload.filename;
+                var fileName =uploadedDocumentMap[file.name];
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    type: 'POST',
+                    url: '{{route('admin.products.destroy')}}',
+                    data: {filename: fileName},
+                    success: function (data){
+                        file.previewElement.remove();
+                    },
+                    error: function(data) {
+                        // console.log(data.name);
+                    }});
                 if (typeof file.file_name !== 'undefined') {
                     name = file.file_name
                 } else {

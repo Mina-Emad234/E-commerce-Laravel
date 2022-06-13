@@ -189,28 +189,22 @@ class ProductsController extends Controller
                 }
 
             DB::commit();
-            sleep(.1);
-            $path=public_path('assets/images/products');
-            $scan = array_slice(scandir($path),2);
-            $files =Image::pluck('image');
-            $all=[];
-                foreach ($files as $file){
-                    $all[]=$file;
-                }
 
-            $diffs =  array_diff($scan, $all);
-            foreach($diffs as $diff) {
-                $file_d = base_path('public/assets/images/products/' . $diff);
-                if (!is_dir($diff)) {
-                    unlink($file_d);
-                }
-            }
             return redirect()->route('admin.products.create-options');
         }catch (\Exception $ex) {
 //            return $ex;
             DB::rollBack();
             return redirect()->back()->withInput()->with(['error' => __('admin/dashboard.category_error_create_msg')]);
         }
+    }
+
+    public function fileDestroy(Request $request)
+    {
+        $filename =  $request->filename;
+        if (file_exists('assets/images/products/'.$filename)) {
+            unlink('assets/images/products/'.$filename);
+        }
+        return $filename;
     }
 
    ################# product options creation section #########################
@@ -395,27 +389,7 @@ class ProductsController extends Controller
                 ]);
             }
             DB::commit();
-            sleep(.1);
-            $path = public_path('assets/images/products');
-            $scan = array_slice(scandir($path),2);
-
-            $files =  Image::pluck('image');
-            $protectTheseImages = [];
-
-
-            foreach($files as $file) {
-                $protectTheseImages[] = $file;
-            }
-
-            $diffs = (array) array_diff($scan, $protectTheseImages);
-            foreach($diffs as $diff) {
-                $file_d = base_path('public/assets/images/products/' . $diff);
-                if (!is_dir($diff)) {
-                    unlink($file_d);
-                }
-            }
             return redirect()->route('admin.products')->with(['success' => __('admin/dashboard.pro_update_msg_success')]);
-
 
         }catch (\Exception $ex) {
             DB::rollBack();

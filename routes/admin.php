@@ -92,6 +92,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Dashboard','middleware'=>'auth:
         Route::get('/create_images', 'ProductsController@createGeneralImages')->name('admin.products.general.create-images');
         Route::post('/save_images', 'ProductsController@saveImages')->name('admin.products.images.store');
         Route::post('/store_images', 'ProductsController@endGeneralImages')->name('admin.products.save-db');
+        Route::post('/destroy_images', 'ProductsController@fileDestroy')->name('admin.products.destroy');
+
 
         Route::get('/create_option', 'ProductsController@createOption')->name('admin.products.create-options');
         Route::post('/store_option', 'ProductsController@storeGeneralOption')->name('admin.products.store-options');
